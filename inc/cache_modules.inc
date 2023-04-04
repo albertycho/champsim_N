@@ -1,7 +1,7 @@
 enum class repl_t
 {
-    rreplacementDlru,
-    rreplacementDsrrip
+    rreplacementDsrrip,
+    rreplacementDlru
 };
 
 void repl_rreplacementDsrrip_initialize();
@@ -43,17 +43,17 @@ void impl_replacement_final_stats()
 enum class pref_t
 {
     pprefetcherDno,
-    CPU_REDIRECT_pprefetcherDnext_line_instr_,
-    pprefetcherDip_stride
+    pprefetcherDip_stride,
+    CPU_REDIRECT_pprefetcherDnext_line_instr_
 };
 
-void pref_pprefetcherDip_stride_initialize();
 void pref_pprefetcherDno_initialize();
+void pref_pprefetcherDip_stride_initialize();
 void impl_prefetcher_initialize()
 {
-    if (pref_type == pref_t::pprefetcherDip_stride) return pref_pprefetcherDip_stride_initialize();
     if (pref_type == pref_t::CPU_REDIRECT_pprefetcherDnext_line_instr_) return ooo_cpu[cpu]->pref_pprefetcherDnext_line_instr_initialize();
     if (pref_type == pref_t::pprefetcherDno) return pref_pprefetcherDno_initialize();
+    if (pref_type == pref_t::pprefetcherDip_stride) return pref_pprefetcherDip_stride_initialize();
     throw std::invalid_argument("Data prefetcher module not found");
 }
 
@@ -62,8 +62,8 @@ uint32_t pref_pprefetcherDno_cache_operate(uint64_t, uint64_t, uint8_t, uint8_t,
 uint32_t impl_prefetcher_cache_operate(uint64_t addr, uint64_t ip, uint8_t cache_hit, uint8_t type, uint32_t metadata_in)
 {
     if (pref_type == pref_t::pprefetcherDip_stride) return pref_pprefetcherDip_stride_cache_operate(addr, ip, cache_hit, type, metadata_in);
-    if (pref_type == pref_t::CPU_REDIRECT_pprefetcherDnext_line_instr_) return ooo_cpu[cpu]->pref_pprefetcherDnext_line_instr_cache_operate(addr, cache_hit, (type == PREFETCH), metadata_in);
     if (pref_type == pref_t::pprefetcherDno) return pref_pprefetcherDno_cache_operate(addr, ip, cache_hit, type, metadata_in);
+    if (pref_type == pref_t::CPU_REDIRECT_pprefetcherDnext_line_instr_) return ooo_cpu[cpu]->pref_pprefetcherDnext_line_instr_cache_operate(addr, cache_hit, (type == PREFETCH), metadata_in);
     throw std::invalid_argument("Data prefetcher module not found");
 }
 
@@ -82,18 +82,18 @@ void pref_pprefetcherDip_stride_cycle_operate();
 void impl_prefetcher_cycle_operate()
 {
     if (pref_type == pref_t::pprefetcherDno) return pref_pprefetcherDno_cycle_operate();
-    if (pref_type == pref_t::CPU_REDIRECT_pprefetcherDnext_line_instr_) return ooo_cpu[cpu]->pref_pprefetcherDnext_line_instr_cycle_operate();
     if (pref_type == pref_t::pprefetcherDip_stride) return pref_pprefetcherDip_stride_cycle_operate();
+    if (pref_type == pref_t::CPU_REDIRECT_pprefetcherDnext_line_instr_) return ooo_cpu[cpu]->pref_pprefetcherDnext_line_instr_cycle_operate();
     throw std::invalid_argument("Data prefetcher module not found");
 }
 
-void pref_pprefetcherDno_final_stats();
 void pref_pprefetcherDip_stride_final_stats();
+void pref_pprefetcherDno_final_stats();
 void impl_prefetcher_final_stats()
 {
-    if (pref_type == pref_t::pprefetcherDno) return pref_pprefetcherDno_final_stats();
     if (pref_type == pref_t::pprefetcherDip_stride) return pref_pprefetcherDip_stride_final_stats();
     if (pref_type == pref_t::CPU_REDIRECT_pprefetcherDnext_line_instr_) return ooo_cpu[cpu]->pref_pprefetcherDnext_line_instr_final_stats();
+    if (pref_type == pref_t::pprefetcherDno) return pref_pprefetcherDno_final_stats();
     throw std::invalid_argument("Data prefetcher module not found");
 }
 
