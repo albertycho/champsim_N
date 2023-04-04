@@ -1,5 +1,5 @@
 {
-    "executable_name": "bin/8C_BASE",
+    "executable_name": "bin/4C_BASE",
     "block_size": 64,
     "page_size": 4096,
     "heartbeat_frequency": 10000000,

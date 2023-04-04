@@ -112,10 +112,18 @@ void print_roi_stats(uint32_t cpu, CACHE* cache)
     cout << "  USEFUL: " << setw(10) << cache->pf_useful << "  USELESS: " << setw(10) << cache->pf_useless << endl;
 
     cout << cache->NAME;
-    cout << " AVERAGE MISS LATENCY: " << (1.0 * (cache->total_miss_latency)) / TOTAL_MISS << " cycles" << endl;
+    cout << " AVERAGE MISS LATENCY: " << (1.0 * (cache->total_miss_latency[cpu])) / TOTAL_MISS << " cycles" << endl;
     // cout << " AVERAGE MISS LATENCY: " <<
     // (cache->total_miss_latency)/TOTAL_MISS << " cycles " <<
     // cache->total_miss_latency << "/" << TOTAL_MISS<< endl;
+	if (cache->NAME == "LLC") {
+		cout << "LLC_MISS_LAT_HIST (in ns):"<< endl;
+		for(uint32_t i =0;i<200;i++){
+        	cout<<i*10<<" : "<<cache->lat_hist[cpu][i]<<endl;
+    	}
+
+	}
+
   }
 }
 
@@ -148,6 +156,8 @@ void print_sim_stats(uint32_t cpu, CACHE* cache)
     cout << cache->NAME;
     cout << " WRITEBACK ACCESS: " << setw(10) << cache->sim_access[cpu][3] << "  HIT: " << setw(10) << cache->sim_hit[cpu][3] << "  MISS: " << setw(10)
          << cache->sim_miss[cpu][3] << endl;
+
+
   }
 }
 
@@ -256,7 +266,9 @@ void reset_cache_stats(uint32_t cpu, CACHE* cache)
   cache->pf_useless = 0;
   cache->pf_fill = 0;
 
-  cache->total_miss_latency = 0;
+  for(uint32_t i=0; i< NUM_CPUS;i++){
+  	cache->total_miss_latency[i] = 0;
+  }
 
   cache->RQ_ACCESS = 0;
   cache->RQ_MERGED = 0;
