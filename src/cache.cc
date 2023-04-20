@@ -267,7 +267,8 @@ bool CACHE::readlike_miss(PACKET& handle_pkt)
 
     // check to make sure the lower level queue has room for this read miss
     int queue_type = (is_read) ? 1 : 3;
-    if (lower_level->get_occupancy(queue_type, handle_pkt.address) == lower_level->get_size(queue_type, handle_pkt.address))
+    bool is_prio = false;
+    if (lower_level->get_occupancy(queue_type, handle_pkt.address, is_prio) == lower_level->get_size(queue_type, handle_pkt.address))
       return false;
 
     // Allocate an MSHR
@@ -709,7 +710,8 @@ void CACHE::return_data(PACKET* packet)
     std::cout << "[" << NAME << "_MSHR] " << __func__ << " instr_id: " << mshr_entry->instr_id;
     std::cout << " address: " << std::hex << (mshr_entry->address >> OFFSET_BITS) << " full_addr: " << mshr_entry->address;
     std::cout << " data: " << mshr_entry->data << std::dec;
-    std::cout << " index: " << std::distance(MSHR.begin(), mshr_entry) << " occupancy: " << get_occupancy(0, 0);
+    bool is_prio = false;
+    std::cout << " index: " << std::distance(MSHR.begin(), mshr_entry) << " occupancy: " << get_occupancy(0, 0, is_prio);
     std::cout << " event: " << mshr_entry->event_cycle << " current: " << current_cycle << std::endl;
   });
 
@@ -718,7 +720,7 @@ void CACHE::return_data(PACKET* packet)
   std::iter_swap(mshr_entry, first_unreturned);
 }
 
-uint32_t CACHE::get_occupancy(uint8_t queue_type, uint64_t address)
+uint32_t CACHE::get_occupancy(uint8_t queue_type, uint64_t address, bool is_prio)
 {
   if (queue_type == 0)
     return std::count_if(MSHR.begin(), MSHR.end(), is_valid<PACKET>());

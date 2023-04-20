@@ -28,6 +28,18 @@ parser.add_argument('--printstd', type=str, default='0')
 #parser.add_argument('--wsize', type=str, default='0')
 args = parser.parse_args()
 
+champsim_dir = args.champsim_dir
+cfg = args.cfg
+tr  = args.tr
+wi  = args.wi
+si  = args.si
+
+printstd = args.printstd
+
+f1=open(tr, 'r')
+tr_arg_line = f1.readline() # let the line include all traces (i.e. 16 files)
+f1.close()
+tr_arg_line=tr_arg_line.split('\n')[0]
 # 1st input: the output directory you want the run to take place + store results
 #outdir = sys.argv[1]
 outdir = args.out_dir
@@ -37,19 +49,6 @@ if (os.path.isdir(outdir)):
 #os.system('rm -rf '+outdir)
 os.system('mkdir '+outdir)
 os.chdir(outdir)
-
-champsim_dir = args.champsim_dir
-cfg = args.cfg
-tr  = args.tr
-wi  = args.wi
-si  = args.si
-
-printstd = args.printstd
-
-f1=open('/shared/acho44/CXL_WD/tr_cmds/'+tr+'.txt', 'r')
-tr_arg_line = f1.readline() # let the line include all traces (i.e. 16 files)
-f1.close()
-tr_arg_line=tr_arg_line.split('\n')[0]
 
 cmd = champsim_dir+'bin/'+cfg+' --warmup_instructions '+wi+' --simulation_instructions '+si+' '+tr_arg_line
 print(cmd)

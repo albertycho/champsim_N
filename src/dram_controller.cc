@@ -236,7 +236,7 @@ uint32_t MEMORY_CONTROLLER::dram_get_row(uint64_t address)
   return (address >> shift) & bitmask(lg2(DRAM_ROWS));
 }
 
-uint32_t MEMORY_CONTROLLER::get_occupancy(uint8_t queue_type, uint64_t address)
+uint32_t MEMORY_CONTROLLER::get_occupancy(uint8_t queue_type, uint64_t address, bool is_prio)
 {
   uint32_t channel = dram_get_channel(address);
   if (queue_type == 1)

@@ -104,12 +104,16 @@ void PageTableWalker::handle_fill()
         fill_mshr->address = fill_mshr->v_address;
 
         DP(if (warmup_complete[packet->cpu]) {
+          bool is_prio = false;
+          if (packet->cpu == 0) {
+            is_pro = false;
+          }
           std::cout << "[" << NAME << "] " << __func__ << " instr_id: " << fill_mshr->instr_id;
           std::cout << " address: " << std::hex << (fill_mshr->address >> LOG2_PAGE_SIZE) << " full_addr: " << fill_mshr->address;
           std::cout << " full_v_addr: " << fill_mshr->v_address;
           std::cout << " data: " << fill_mshr->data << std::dec;
           std::cout << " translation_level: " << +fill_mshr->translation_level;
-          std::cout << " index: " << std::distance(MSHR.begin(), fill_mshr) << " occupancy: " << get_occupancy(0, 0);
+          std::cout << " index: " << std::distance(MSHR.begin(), fill_mshr) << " occupancy: " << get_occupancy(0, 0, is_prio);
           std::cout << " event: " << fill_mshr->event_cycle << " current: " << current_cycle << std::endl;
         });
 
@@ -220,7 +224,7 @@ void PageTableWalker::return_data(PACKET* packet)
   MSHR.sort(ord_event_cycle<PACKET>());
 }
 
-uint32_t PageTableWalker::get_occupancy(uint8_t queue_type, uint64_t address)
+uint32_t PageTableWalker::get_occupancy(uint8_t queue_type, uint64_t address, bool is_prio)
 {
   if (queue_type == 0)
     return std::count_if(MSHR.begin(), MSHR.end(), is_valid<PACKET>());

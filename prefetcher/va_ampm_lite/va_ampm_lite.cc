@@ -218,7 +218,8 @@ uint32_t CACHE::l2c_prefetcher_operate(uint64_t addr, uint64_t ip, uint8_t cache
         && (va_ampm_check_cl_access(addr + (i * BLOCK_SIZE)) == false) && (va_ampm_check_cl_prefetch(addr + (i * BLOCK_SIZE)) == false)) {
       // found something that we should prefetch
       int pf_fill_level = FILL_L2;
-      if (get_occupancy(0, 0) > (get_size(0, 0) >> 1)) {
+      bool is_prio = false;
+      if (get_occupancy(0, 0, is_prio) > (get_size(0, 0) >> 1)) {
         pf_fill_level = FILL_LLC;
       }
       bool prefetch_success = (l2c_prefetch(this, ip, addr, addr + (i * BLOCK_SIZE), pf_fill_level, 0) > 0);
@@ -240,7 +241,8 @@ uint32_t CACHE::l2c_prefetcher_operate(uint64_t addr, uint64_t ip, uint8_t cache
         && (va_ampm_check_cl_access(addr - (i * BLOCK_SIZE)) == false) && (va_ampm_check_cl_prefetch(addr - (i * BLOCK_SIZE)) == false)) {
       // found something that we should prefetch
       int pf_fill_level = FILL_L2;
-      if (get_occupancy(0, 0) > (get_size(0, 0) >> 1)) {
+      bool is_prio = false;
+      if (get_occupancy(0, 0, is_prio) > (get_size(0, 0) >> 1)) {
         pf_fill_level = FILL_LLC;
       }
       bool prefetch_success = (l2c_prefetch(this, ip, addr, addr - (i * BLOCK_SIZE), pf_fill_level, 0) > 0);
