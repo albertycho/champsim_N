@@ -122,11 +122,13 @@ static VOID pin_magic_inst(THREADID tid, ADDRINT value, ADDRINT field){
                 std::cout<<"TRACER - Ins Count: "<<instrCount<<std::endl;
                 break;
             case 0x6: // req start
-                std::cout<<"req_start"<<std::endl;
+                std::cout<<"req_start - Ins Count"<<instrCount<<std::endl;
                 set_req_start();
+                break;
             case 0x7: // req end
-            std::cout<<"req_end"<<std::endl;
+                std::cout<<"req_end - Ins Count"<<instrCount<<std::endl;
                 set_req_end();
+                break;
 
             default:
                 break;
