@@ -55,6 +55,8 @@ struct ooo_model_instr {
   uint8_t translated = 0, fetched = 0, decoded = 0, scheduled = 0, executed = 0;
   int num_reg_ops = 0, num_mem_ops = 0, num_reg_dependent = 0;
 
+  unsigned char magic_inst = 0;
+
   uint8_t destination_registers[NUM_INSTR_DESTINATIONS_SPARC] = {}; // output registers
 
   uint8_t source_registers[NUM_INSTR_SOURCES] = {}; // input registers
@@ -82,6 +84,7 @@ struct ooo_model_instr {
     this->ip = instr.ip;
     this->is_branch = instr.is_branch;
     this->branch_taken = instr.branch_taken;
+    this->magic_inst = instr.magic_inst;
 
     asid[0] = cpu;
     asid[1] = cpu;
@@ -97,6 +100,7 @@ struct ooo_model_instr {
     this->ip = instr.ip;
     this->is_branch = instr.is_branch;
     this->branch_taken = instr.branch_taken;
+    this->magic_inst = instr.magic_inst;
 
     std::copy(std::begin(instr.asid), std::begin(instr.asid), std::begin(this->asid));
   }

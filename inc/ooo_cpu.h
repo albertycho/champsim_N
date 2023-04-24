@@ -45,6 +45,10 @@ class O3_CPU : public champsim::operable
 {
 public:
   uint32_t cpu = 0;
+  uint64_t cur_req_deadline=0;
+  uint64_t cur_req_start_time=0;
+  uint64_t cur_req_end_time=0;
+  uint64_t single_service_time=1000;
 
   // instruction
   uint64_t instr_unique_id = 0, completed_executions = 0, begin_sim_cycle = 0, begin_sim_instr = 0, last_sim_cycle = 0, last_sim_instr = 0,

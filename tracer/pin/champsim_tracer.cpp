@@ -99,6 +99,14 @@ void BranchOrNot(UINT32 taken)
     curr_instr.is_branch = 1;
     curr_instr.branch_taken = taken;
 }
+void set_req_start()
+{
+    curr_instr.magic_inst=1;
+}
+void set_req_end()
+{
+    curr_instr.magic_inst=2;
+}
 
 template <typename T>
 void WriteToSet(T* begin, T* end, UINT32 r)
@@ -113,6 +121,13 @@ static VOID pin_magic_inst(THREADID tid, ADDRINT value, ADDRINT field){
             case 0x5: //Print Instruction count (dbg, setting FF, etc)
                 std::cout<<"TRACER - Ins Count: "<<instrCount<<std::endl;
                 break;
+            case 0x6: // req start
+                std::cout<<"req_start"<<std::endl;
+                set_req_start();
+            case 0x7: // req end
+            std::cout<<"req_end"<<std::endl;
+                set_req_end();
+
             default:
                 break;
           }

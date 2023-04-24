@@ -574,6 +574,24 @@ void O3_CPU::execute_instruction()
 
 void O3_CPU::do_execution(champsim::circular_buffer<ooo_model_instr>::iterator rob_it)
 {
+  //TODO Let's handle magic instruction here
+  if(rob_it->magic_inst==1){
+    //uint64_t single_service_time=1000;
+    std::cout<<"req_start found"<<std::endl;
+    uint64_t SLO = (rand()%9) + 1;
+    SLO = SLO*single_service_time;
+    cur_req_deadline=current_cycle+SLO;
+    cur_req_start_time=current_cycle;
+  }
+  if(rob_it->magic_inst==2){
+    std::cout<<"req_finish found"<<std::endl;
+    uint64_t cur_service_time = current_cycle - cur_req_start_time;
+    std::cout<<"cur_service_time(cycles): "<<cur_service_time<<std::endl;
+
+    
+    cur_req_deadline=~0;
+  }
+
   rob_it->executed = INFLIGHT;
 
   // ADD LATENCY
