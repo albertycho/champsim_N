@@ -55,7 +55,7 @@ struct ooo_model_instr {
   uint8_t translated = 0, fetched = 0, decoded = 0, scheduled = 0, executed = 0;
   int num_reg_ops = 0, num_mem_ops = 0, num_reg_dependent = 0;
 
-  unsigned char magic_inst = 0;
+  uint64_t magic_inst = 0;
 
   uint8_t destination_registers[NUM_INSTR_DESTINATIONS_SPARC] = {}; // output registers
 

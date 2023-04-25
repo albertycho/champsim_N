@@ -41,7 +41,7 @@ struct input_instr {
   unsigned long long source_memory[NUM_INSTR_SOURCES] = {};           // input memory
 
   //for tracking at request level
-  unsigned char magic_inst = 0;
+  uint64_t magic_inst = 0;
 };
 
 struct cloudsuite_instr {
@@ -59,7 +59,7 @@ struct cloudsuite_instr {
   unsigned long long source_memory[NUM_INSTR_SOURCES] = {};                 // input memory
 
   unsigned char asid[2] = {std::numeric_limits<unsigned char>::max(), std::numeric_limits<unsigned char>::max()};
-  unsigned char magic_inst = 0;
+  uint64_t magic_inst = 0;
 };
 
 #endif
