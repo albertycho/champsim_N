@@ -46,6 +46,17 @@ public:
      *   is_prio = true;
      * }
      */
+    /*
+     * do something like this for request level priority:
+     uint64_t req_cpu = packet->cpu;
+     uint64_t cur_deadline = ooo_cpu[req_cpu]->cur_req_deadline
+     uint64_t some_threshold = 10000 * 2;
+     if(cur_deadline -ooo_cpu[req_cpu]->currrent_cycle < some_threshold ){
+      is_prio=true;
+     }
+    
+     */
+    
     // Check for forwarding
     // Returns data without transacting with DRAMSim
     auto wq_it =
@@ -105,11 +116,9 @@ public:
     bool is_prio = false;
 
     // For now just use simple per-cpu prio
-    /*
-     * if (packet->cpu == 0) {
-     *   is_prio = true;
-     * }
-     */
+    if (packet->cpu < 4) {
+      is_prio = true;
+    }
 
     // Check for duplicates
     // Does not add a new transaction to DRAMSim
