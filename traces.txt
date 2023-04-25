@@ -1,1 +1,1 @@
-~/gt/champsim_N/TRACES/masstree.trace.xz ~/gt/champsim_N/TRACES/stream.trace.xz ~/gt/champsim_N/TRACES/stream.trace.xz ~/gt/champsim_N/TRACES/stream.trace.xz
+~/gt/dram_prio/champsim_N/TRACES/masstree.trace.xz ~/gt/dram_prio/champsim_N/TRACES/masstree.trace.xz ~/gt/dram_prio/champsim_N/TRACES/masstree.trace.xz ~/gt/dram_prio/champsim_N/TRACES/masstree.trace.xz

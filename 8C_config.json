@@ -229,7 +229,7 @@
         "rq_size": 64,
         "wq_size": 64,
         "pq_size": 8,
-        "mshr_size": 32,
+        "mshr_size": 64,
         "latency": 5,
         "max_read": 3,
         "max_write": 2,
